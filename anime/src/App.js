@@ -1,7 +1,8 @@
 import {useState, useEffect} from "react";
 import Header from './components/Header'
 import Sidebar from "./components/Sidebar";
-import MainContent from "./components/MainContent"
+import MainContent from "./components/MainContent";
+
 
 function App() {
     const [animeList, setAnimeList] = useState([]);
@@ -15,18 +16,22 @@ function App() {
         setTopAnime(temp.data.slice(0,5));
     }
 
-    const handleSearch = e => {
-        e.preventDefault();
+    const handleSearch = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
 
-        console.log(search)
+        // console.log(search)
+        fetchAnime(search);
+    }
 
-        // fetchAnime(search);
+    const fetchAnime = async (query) => {
+        const temp = await fetch(`https://api.jikan.moe/v4/anime?q=${query}&sfw`)
+            .then(res => res.json())
+            .then(data => setAnimeList(data.data))
     }
 
     useEffect(() => {
         getTopAnime();
-
-        console.log("Top Anime")
     }, []);
 
     console.log(topAnime)

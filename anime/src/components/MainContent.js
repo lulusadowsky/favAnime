@@ -1,4 +1,5 @@
 import React from 'react'
+import AnimeCard from "./AnimeCard";
 
 function MainContent(props) {
     return (
@@ -6,16 +7,22 @@ function MainContent(props) {
             <div className="main-head">
                 <form
                     className="search-box"
-                    onSubmit={props.handleSearch}
-                >
+                    onSubmit={props.handleSearch}>
                     <input
                         type="search"
                         placeholder="Search for an anime..."
                         required
                         value={props.search}
-                        onChange={e => props.setSearch(e.target.value)}
-                    />
+                        onChange={event => props.setSearch(event.target.value)}/>
                 </form>
+            </div>
+            <div className="anime-list">
+                {props.animeList.map(anime => (
+                   <AnimeCard
+                        anime={anime}
+                        key={anime.mal_id}
+                   />
+                ))}
             </div>
         </main>
     )
